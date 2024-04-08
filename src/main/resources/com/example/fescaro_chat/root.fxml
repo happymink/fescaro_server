@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.fescaro_chat.RootController">
+
+    <padding>
+        <Insets top = "5" right="5" bottom="5" left="5"/>
+    </padding>
+
+    <center>
+        <TextArea fx:id="textArea" editable="false" font="나눔고딕 15"/>
+    </center>
+
+    <bottom>
+        <Button fx:id="toggleButton" text="시작하기" maxWidth="Infinity" onAction="#startServer">
+        <BorderPane.margin>
+            <Insets top="1"/>
+        </BorderPane.margin>
+        </Button>
+    </bottom>
+</BorderPane>
