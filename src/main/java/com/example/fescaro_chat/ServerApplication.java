@@ -1,5 +1,6 @@
 package com.example.fescaro_chat;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -23,29 +25,26 @@ import java.util.concurrent.Executors;
 
 public class ServerApplication extends Application implements EventHandler<ActionEvent> {
 
-    //다양한 클라이언트가 접속했을 때, 쓰레드를 효과적으로 관리하기 위해
     public static ExecutorService threadPool;
     public static Vector<Client> clients = new Vector<>();
     private final String IP = "127.0.0.1";
-    private final int port = 9876;
-    ServerSocket serverSocket;
-    TextArea textArea = new TextArea();
-    Button toggleButton;
+    private final int port = 3000;
+    private ServerSocket serverSocket;
+    private TextArea textArea = new TextArea();
+    private Button toggleButton;
+    private PauseTransition pause = new PauseTransition(Duration.millis(350));
 
     public static void main(String[] args) {
         launch();
     }
 
-    // 서버를 구동시켜 클라이언트의 연결을 기다림
     public void startServer(String IP, int port, TextArea textArea) {
         try {
-            //todo
-            System.out.println("서버 구동");
-
             serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress(IP, port));
         } catch (Exception e) {
-            e.printStackTrace();
+            toggleButton.setText("접속하기");
+            textArea.appendText("IP 주소가 이미 사용중입니다\n");
             if (!serverSocket.isClosed()) {
                 stopServer();
             }
@@ -54,7 +53,6 @@ public class ServerApplication extends Application implements EventHandler<Actio
         Runnable thread = () -> {
             while(true){
                 try{
-                    System.out.println("서버 쓰레드 동작");
                     textArea.appendText("클라이언트 접속 대기중.. \n");
                     Socket socket = serverSocket.accept();
                     clients.add(new Client(socket, textArea));
@@ -67,12 +65,10 @@ public class ServerApplication extends Application implements EventHandler<Actio
                 }
             }
         };
-        System.out.println("쓰레드풀 생성");
         threadPool = Executors.newCachedThreadPool();
         threadPool.submit(thread);
     }
 
-    // 서버의 작동을 중지시킴
     public void stopServer() {
         try{
             textArea.appendText("서버가 중지됩니다. \n");
@@ -118,7 +114,7 @@ public class ServerApplication extends Application implements EventHandler<Actio
 
         toggleButton.setOnAction(this);
         Scene scene = new Scene(root, 400, 400);
-        stage.setTitle("[채팅 서버]");
+        stage.setTitle("GUI ChatServer");
         stage.setOnCloseRequest(windowEvent -> stopServer());
         stage.setScene(scene);
         stage.show();
@@ -129,19 +125,21 @@ public class ServerApplication extends Application implements EventHandler<Actio
 
         if(actionEvent.getSource() == toggleButton){
             if(toggleButton.getText().equals("시작하기")){
+                toggleButton.setDisable(true);
+                pause.setOnFinished(action -> toggleButton.setDisable(false));
+                pause.play();
                 startServer(IP, port, textArea);
                 Platform.runLater(() -> {
-                    String message = String.format("[서버시작]\n", IP, port);
-                    textArea.appendText(message);
                     toggleButton.setText("종료하기");
                 });
             } else {
-                stopServer();
+                toggleButton.setDisable(true);
+                pause.setOnFinished(action -> toggleButton.setDisable(false));
+                pause.play();
                 Platform.runLater(() -> {
-                    String message = String.format("[서버종료]\n", IP, port);
-                    textArea.appendText(message);
                     toggleButton.setText("시작하기");
                 });
+                stopServer();
             }
         }
     }

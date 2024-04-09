@@ -12,6 +12,12 @@ public class Client {
     Socket socket;
     TextArea textArea;
 
+
+    public Client(Socket socket) {
+        this.socket = socket;
+        receive();
+    }
+
     public Client(Socket socket, TextArea textArea) {
         this.socket = socket;
         this.textArea = textArea;
@@ -38,10 +44,7 @@ public class Client {
                     if(message.equals("exit")){
                         textArea.appendText("[IP "+socket.getRemoteSocketAddress() + "] 님이 접속을 종료했습니다.\n");
                         socket.close();
-                        System.out.println(ServerApplication.clients.size());
                         ServerApplication.clients.remove(this);
-                        System.out.println("클라이언트를 제거합니다");
-                        System.out.println(ServerApplication.clients.size());
                         break;
                     }
 
@@ -63,8 +66,7 @@ public class Client {
         ServerApplication.threadPool.submit(thread);
     }
 
-    //클라이언트에게 메세지를 전송함
-    public void send(String message) {
+     void send(String message) {
 
         Runnable thread = () -> {
             try {

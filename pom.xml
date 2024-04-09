@@ -7,7 +7,7 @@
     <groupId>com.example</groupId>
     <artifactId>fescaro_server</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>fescaro_chat</name>
+    <name>fescaro_server</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,12 +18,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.6</version>
+            <version>21.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.6</version>
+            <version>21.0.2</version>
         </dependency>
 
         <dependency>
@@ -38,6 +38,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
