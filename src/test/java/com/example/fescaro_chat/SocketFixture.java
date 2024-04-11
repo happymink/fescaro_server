@@ -33,11 +33,6 @@ public class SocketFixture {
         return new String(buffer, 0, length, StandardCharsets.UTF_8);
     }
 
-    public Client client(){
-        return new Client(socket);
-    }
-
-
     public Socket socket() throws IOException {
         return new Socket("127.0.0.1", 3000);
     }

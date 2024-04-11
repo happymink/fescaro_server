@@ -12,12 +12,6 @@ public class Client {
     Socket socket;
     TextArea textArea;
 
-
-    public Client(Socket socket) {
-        this.socket = socket;
-        receive();
-    }
-
     public Client(Socket socket, TextArea textArea) {
         this.socket = socket;
         this.textArea = textArea;
@@ -29,7 +23,6 @@ public class Client {
         Runnable thread = () -> {
             try {
                 while (true) {
-                    System.out.println("메세지 도착했습니다.");
                     InputStream in = socket.getInputStream();
                     byte[] buffer = new byte[512];
                     int length = in.read(buffer);

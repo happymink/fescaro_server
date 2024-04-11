@@ -1,24 +1,25 @@
 package com.example.fescaro_chat;
 
-import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.fescaro_chat.greet.GreetClient;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.net.Socket;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ClientTest {
 
-    SocketFixture socketFixture = new SocketFixture();
-
-    ClientTest() throws IOException {
-    }
+//    @Test
+//    public void givenGreetingClient_whenServerRespondsWhenStarted_thenCorrect() throws IOException {
+//
+//        GreetClient client = new GreetClient();
+//        client.startConnection("127.0.0.1", 3000);
+//        String response = client.sendMessage("hello server");
+//        assertEquals("hello client", response);
+//    }
 
     @Test
-    public void givenGreetingClient_whenServerRespondsWhenStarted_thenCorrect() throws IOException {
-
-        Client client = socketFixture.client();
+    public void test(){
 
     }
 }

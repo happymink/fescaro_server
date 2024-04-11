@@ -35,6 +35,8 @@ public class ClientApplication extends Application implements EventHandler<Actio
     private TextField input;
     private PauseTransition pause = new PauseTransition(Duration.millis(350));
 
+    private String lastMessage;
+
     public static void main(String[] args) {
         launch();
     }
@@ -87,6 +89,14 @@ public class ClientApplication extends Application implements EventHandler<Actio
         }
     }
 
+    private void setLastMessage(String message){
+        this.lastMessage = message;
+    }
+
+    public String getLastMessage(){
+        return lastMessage;
+    }
+
     private void receive() {
         while (true) {
             try {
@@ -96,7 +106,11 @@ public class ClientApplication extends Application implements EventHandler<Actio
                 if (length == -1) throw new IOException();
                 String message = new String(buffer, 0, length, StandardCharsets.UTF_8);
 
+
+
                 checkCloseMessage(message);
+                setLastMessage(message);
+
                 Platform.runLater(() -> textArea.appendText(message));
 
             } catch (Exception e) {
